@@ -1,51 +1,54 @@
-#include <iostream>
+//IN THE FOLLOWING CODE FIND THE DEBT AND REFACTOR THE DESIGN
  
 class Icon
 {
-    public:
-    Icon() {}
     float speed, glow, energy;
     int x, y;
-    virtual void move() = 0;
-    virtual void flair() = 0;
-};
+    int subtype; // spinner, slider or hopper
  
-class spinner : public Icon
-{
-    public:
-    spinner() {}
     bool clockwise; // need for spinner
     bool expand; // need for spinner
-    void spin() {}
-    void move() { std::cout <<"I am in spinner move"<<std::endl;}
-    void flair() {std::cout <<"I am in spinner flair"<<std::endl; }
-};
- 
-class slider : public Icon
-{
-    public:
-    slider() {}
     bool vertical; // need for slider
+ 
     int distance; // need for slider
-    void slide() {}
-    void move() {}
-    void flair() {}
-};
- 
-class hopper : public Icon
-{
-    public:
-    hopper() {}
     bool visible; // need for hopper
-    int xcoord, ycoord; // need for hopper
-    void hop() {}
-    void move() {}
-    void flair() {}
-};
  
-int main() {
-    spinner obj2;
-    obj2.move();
-    obj2.flair();
-    return 0;
+    int xcoord, ycoord; // need for hopper
+ 
+    void spin() { }
+ 
+    void slide() { }
+ 
+    void hop() { }
+    // constructor must set subtype: client must pass value
+    public Icon(unsigned value)
+    {
+        subtype = value; // use enum for readability
+        // and then use conditional to set associated fields
+    }
+    public void move()
+    {
+        if (subtype == 1) { spin(); }
+        else if (subtype == 2)
+        {
+            slide();
+        }
+        else
+        {
+            hop();
+        }
+    }
+// tedious subtype checking: subtype drives flair details
+   public void flair()
+   {
+       if (subtype == 1) { spin(); }
+       else if (subtype == 2)
+       {
+           slide();
+       }
+       else
+       {
+           hop();
+       }
+   }
 }
